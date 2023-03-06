@@ -2,6 +2,8 @@ import { Avatar, Box, BoxProps, styled, Typography } from "@mui/material";
 import { FC } from "react";
 
 import ImageIcon from "@mui/icons-material/Image";
+import { useDispatch } from "react-redux";
+import { addTitle } from "../redux/titleSlice";
 
 interface UserListItemProps {
   userData: { username: string; email: string };
@@ -26,8 +28,15 @@ const ImgDiv = styled(Box)<BoxProps>(({ theme }) => ({
 }));
 
 const UserListItem: FC<UserListItemProps> = ({ userData }) => {
+  const { email, username } = userData;
+  const dispatch = useDispatch();
+
+  const handleAddToList = (username: string) => {
+    dispatch(addTitle(username));
+  };
+
   return (
-    <MainDiv p={2}>
+    <MainDiv p={2} onClick={() => handleAddToList(username)}>
       <ImgDiv>
         <Avatar>
           <ImageIcon />
@@ -35,9 +44,9 @@ const UserListItem: FC<UserListItemProps> = ({ userData }) => {
       </ImgDiv>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Typography variant="body1" color={"black"}>
-          {userData.username}
+          {username}
         </Typography>
-        <Typography variant="body2">{userData.email}</Typography>
+        <Typography variant="body2">{email}</Typography>
       </Box>
     </MainDiv>
   );

@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { Avatar, Box, BoxProps, styled, Typography } from "@mui/material";
 import ImageIcon from "@mui/icons-material/Image";
+import { useDispatch } from "react-redux";
+import { addTitle } from "../redux/titleSlice";
 
 interface ProductListItemProps {
   productData: { title: string; description: string };
@@ -27,8 +29,14 @@ const ImgDiv = styled(Box)<BoxProps>(({ theme }) => ({
 
 const ProductListItem: FC<ProductListItemProps> = ({ productData }) => {
   const { description, title } = productData;
+  const dispatch = useDispatch();
+
+  const handleAddToList = (title: string) => {
+    dispatch(addTitle(title));
+  };
+
   return (
-    <MainDiv p={2}>
+    <MainDiv p={2} onClick={() => handleAddToList(title)}>
       <ImgDiv>
         <Avatar>
           <ImageIcon />
